@@ -1,14 +1,40 @@
 #include <vector>
 #include <iostream>
-#include <math.h>
-#include <stdio.h>
+#include <cstdlib>
 
 using namespace std;
 
-class Neuron {};
+struct Connection
+{
+    double weight;
+    double deltaWeight;
+};
+
+class Neuron;
 
 typedef vector<Neuron> Layer;
 
+/**************************** class Neuron ***************************/
+class Neuron
+{
+    public:
+        Neuron(unsigned numOutputs);
+
+    private:
+        static double randomWeight(void) { return rand() / double(RAND_MAX);}
+        double m_outputVal;
+        vector<Connection> m_outputWeights;
+};
+
+Neuron::Neuron(unsigned numOutputs)
+{
+    for (unsigned c = 0; c < numOutputs; ++c){
+        m_outputWeights.push_back(Connection());
+        m_outputWeights.back().weight = randomWeight();
+    }
+}
+
+/***************************** class Net *****************************/
 class Net {
     public:
         Net(const vector<unsigned> &topology);
@@ -20,6 +46,11 @@ class Net {
         vector<Layer> m_layer; // m_layers[layerNum][neuronNum]
 };
 
+void feedForward(const vector<double> &inputVals)
+{
+
+};
+
 Net::Net(const vector<unsigned> &topology)
 {
     unsigned numLayers = topology.size();
@@ -27,10 +58,11 @@ Net::Net(const vector<unsigned> &topology)
     // create a new layer
     for (unsigned layerNum = 0; layerNum < numLayers; ++layerNum) {
         m_layer.push_back(Layer());
+        unsigned numOutputs = layerNum == topology.size() - 1 ? 0 : topology[layerNum + 1];
 
         // fill the layer with neurons + bias
         for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; neuronNum++) {
-            m_layer.back().push_back(Neuron());
+            m_layer.back().push_back(Neuron(numOutputs));
             cout << "Made a Neuron!" << endl;
         }
 
