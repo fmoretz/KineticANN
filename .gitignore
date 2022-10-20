@@ -41,3 +41,6 @@ build/Debug/outDebug
 .vscode/launch.json
 .vscode/
 .vscode
+NeuralNet.dSYM/Contents/Info.plist
+NeuralNet.dSYM
+./NeuralNet.dSYM
