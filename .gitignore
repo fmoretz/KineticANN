@@ -44,3 +44,4 @@ build/Debug/outDebug
 NeuralNet.dSYM/Contents/Info.plist
 NeuralNet.dSYM
 ./NeuralNet.dSYM
+__pycache__/dataManage.cpython-39.pyc
