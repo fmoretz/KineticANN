@@ -41,6 +41,7 @@ build/Debug/outDebug
 .vscode/launch.json
 .vscode/
 .vscode
+Database
 NeuralNet.dSYM/Contents/Info.plist
 NeuralNet.dSYM
 ./NeuralNet.dSYM
@@ -54,3 +55,9 @@ Regression/v3 - regression with imputation on data/tempCodeRunnerFile.py
 /.idea/modules.xml
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/inspectionProfiles/Project_Default.xml
+Database Connection - sqlite/Database/Complete_Database.xlsx
+.gitignore
+Database Connection - sqlite/Database/README.pdf
+Database Connection - sqlite/Database/SAD.xlsx
+.gitignore
+Database Connection - sqlite/Database/PAD.xlsx
