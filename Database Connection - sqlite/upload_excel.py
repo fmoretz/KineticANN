@@ -6,12 +6,12 @@ import os
 try:
     # Make sure to find the file.db in the script directory
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    
+
     if os.path.isfile("./substrates.db") == True:
         pass
     else:
         os.system('touch substrates.db')
-    
+
     db_path = os.path.join(BASE_DIR, "substrates.db")
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -32,7 +32,7 @@ if c.fetchone()[0]==1:
 else:
     SAD.to_sql('SAD', conn)
     print('\nSAD uploaded successfully')
-    
+
 
 c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='PAD' ''')
 if c.fetchone()[0]==1:
@@ -40,18 +40,13 @@ if c.fetchone()[0]==1:
 else:
     PAD.to_sql('PAD', conn)
     print('\nPAD uploaded successfully')
-    
+
 c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='ComDB' ''')
 if c.fetchone()[0]==1:
 	print('\nComDB table exists, upload passed')
 else:
     ComDB.to_sql('ComDB', conn)
     print('\nComDB uploaded successfully')
-
-## just-in-case queries
-# c.execute('DROP TABLE SAD;')
-# c.execute('DROP TABLE PAD;')
-# c.execute('DROP TABLE ComDB;')
 
 # save and close connection
 conn.commit()
