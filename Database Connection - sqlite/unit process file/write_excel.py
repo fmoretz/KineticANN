@@ -47,3 +47,5 @@ try:
     print(f'download excel file... [{Fore.GREEN}OK{Style.RESET_ALL}]')
 
 except: print(f'download excel file... [{Fore.RED}DENIED{Style.RESET_ALL}]')
+conn.commit()
+conn.close()
