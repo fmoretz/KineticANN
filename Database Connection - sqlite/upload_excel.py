@@ -20,7 +20,7 @@ try:
 except sqlite3.Error as error:
     print("Failed to read data from sqlite table", error)
 
-# SAD table
+# load table
 SAD   = pd.read_excel('./Database/SAD.xlsx')
 PAD   = pd.read_excel('./Database/PAD.xlsx')
 ComDB = pd.read_excel('./Database/Complete_Database.xlsx')
