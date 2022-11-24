@@ -44,6 +44,7 @@ try:
     OFMSW_ComDB           = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "OFMSW"',                        conn, index_col='index')
     Fish_Waste_ComDB      = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Fish waste"',                   conn, index_col='index')
     Slaughter_Res_ComDB   = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Slaughter residue"',            conn, index_col='index')
+    Blood_ComDB           = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Blood"',                        conn, index_col='index')
     Vinegar_Res_ComDB     = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Vinegar residue"',              conn, index_col='index')
     Precooked_Waste_ComDB = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Precooked carbs-based waste "', conn, index_col='index')
     Exhaust_Oil_ComDB     = pd.read_sql_query('SELECT * FROM ComDB WHERE "Substrate" = "Exhaust kitchen oil"',          conn, index_col='index')
@@ -75,6 +76,7 @@ try:
     OFMSW_ComDB           = OFMSW_ComDB.drop(          [cols[0], cols[1]], axis=1).T.to_numpy()
     Fish_Waste_ComDB      = Fish_Waste_ComDB.drop(     [cols[0], cols[1]], axis=1).T.to_numpy()
     Slaughter_Res_ComDB   = Slaughter_Res_ComDB.drop(  [cols[0], cols[1]], axis=1).T.to_numpy()
+    Blood_ComDB           = Blood_ComDB.drop(          [cols[0], cols[1]], axis=1).T.to_numpy()
     Vinegar_Res_ComDB     = Vinegar_Res_ComDB.drop(    [cols[0], cols[1]], axis=1).T.to_numpy()
     Precooked_Waste_ComDB = Precooked_Waste_ComDB.drop([cols[0], cols[1]], axis=1).T.to_numpy()
     Exhaust_Oil_ComDB     = Exhaust_Oil_ComDB.drop(    [cols[0], cols[1]], axis=1).T.to_numpy()
@@ -83,6 +85,8 @@ try:
     print(f'data extraction... [{Fore.GREEN}OK{Style.RESET_ALL}]')
 
 except: print(f'data extraction... [{Fore.RED}DENIED{Style.RESET_ALL}]')
+
+cols_all = cols
 cols = cols[2:]
 try:
     Dairy_Manure    = {str(cols[i]): np.nanmean(Dairy_Manure_ComDB[i],    dtype='float32') for i in range(0, len(cols))}
@@ -105,6 +109,7 @@ try:
     OFMSW           = {str(cols[i]): np.nanmean(OFMSW_ComDB[i],           dtype='float32') for i in range(0, len(cols))}
     Fish_Waste      = {str(cols[i]): np.nanmean(Fish_Waste_ComDB[i],      dtype='float32') for i in range(0, len(cols))}
     Slaughter_Res   = {str(cols[i]): np.nanmean(Slaughter_Res_ComDB[i],   dtype='float32') for i in range(0, len(cols))}
+    Blood           = {str(cols[i]): np.nanmean(Blood_ComDB[i],           dtype='float32') for i in range(0, len(cols))}
     Vinegar_Res     = {str(cols[i]): np.nanmean(Vinegar_Res_ComDB[i],     dtype='float32') for i in range(0, len(cols))}
     Precooked_Waste = {str(cols[i]): np.nanmean(Precooked_Waste_ComDB[i], dtype='float32') for i in range(0, len(cols))}
     Exhaust_Oil     = {str(cols[i]): np.nanmean(Exhaust_Oil_ComDB[i],     dtype='float32') for i in range(0, len(cols))}
@@ -134,36 +139,68 @@ try:
     OFMSW           = pd.DataFrame(OFMSW          , index=[0])
     Fish_Waste      = pd.DataFrame(Fish_Waste     , index=[0])
     Slaughter_Res   = pd.DataFrame(Slaughter_Res  , index=[0])
+    Blood           = pd.DataFrame(Blood          , index=[0])
     Vinegar_Res     = pd.DataFrame(Vinegar_Res    , index=[0])
     Precooked_Waste = pd.DataFrame(Precooked_Waste, index=[0])
     Exhaust_Oil     = pd.DataFrame(Exhaust_Oil    , index=[0])
     Sewage          = pd.DataFrame(Sewage         , index=[0])
     Food_Ind        = pd.DataFrame(Food_Ind       , index=[0])
-    Dairy_Manure.insert(   0, 'Category', 'Dairy_Manure   ')
-    Goat_Manure.insert(    0, 'Category', 'Goat_Manure    ')
-    Chicken_Manure.insert( 0, 'Category', 'Chicken_Manure ')
-    Sheep_Manure.insert(   0, 'Category', 'Sheep_Manure   ')
-    Pig_Manure.insert(     0, 'Category', 'Pig_Manure     ')
-    Sow_Manure.insert(     0, 'Category', 'Sow_Manure     ')
-    Chicken_Litter.insert( 0, 'Category', 'Chicken_Litter ')
-    Straw.insert(          0, 'Category', 'Straw          ')
-    Rice_Husk.insert(      0, 'Category', 'Rice_Husk      ')
-    Sugar_Beet.insert(     0, 'Category', 'Sugar_Beet     ')
-    Dry_Grass.insert(      0, 'Category', 'Dry_Grass      ')
-    Maize.insert(          0, 'Category', 'Maize          ')
-    Potato_Waste.insert(   0, 'Category', 'Potato_Waste   ')
-    Yard_Waste.insert(     0, 'Category', 'Yard_Waste     ')
-    Bamboo.insert(         0, 'Category', 'Bamboo         ')
-    Food_Waste.insert(     0, 'Category', 'Food_Waste     ')
-    Fruit_Veggie.insert(   0, 'Category', 'Fruit_Veggie   ')
-    OFMSW.insert(          0, 'Category', 'OFMSW          ')
-    Fish_Waste.insert(     0, 'Category', 'Fish_Waste     ')
-    Slaughter_Res.insert(  0, 'Category', 'Slaughter_Res  ')
-    Vinegar_Res.insert(    0, 'Category', 'Vinegar_Res    ')
-    Precooked_Waste.insert(0, 'Category', 'Precooked_Waste')
-    Exhaust_Oil.insert(    0, 'Category', 'Exhaust_Oil    ')
-    Sewage.insert(         0, 'Category', 'Sewage         ')
-    Food_Ind.insert(       0, 'Category', 'Food_Ind       ')
+
+    # Substrate type insertion
+    Dairy_Manure.insert(   0, 'Substrate', 'Dairy_Manure   ')
+    Goat_Manure.insert(    0, 'Substrate', 'Goat_Manure    ')
+    Chicken_Manure.insert( 0, 'Substrate', 'Chicken_Manure ')
+    Sheep_Manure.insert(   0, 'Substrate', 'Sheep_Manure   ')
+    Pig_Manure.insert(     0, 'Substrate', 'Pig_Manure     ')
+    Sow_Manure.insert(     0, 'Substrate', 'Sow_Manure     ')
+    Chicken_Litter.insert( 0, 'Substrate', 'Chicken_Litter ')
+    Straw.insert(          0, 'Substrate', 'Straw          ')
+    Rice_Husk.insert(      0, 'Substrate', 'Rice_Husk      ')
+    Sugar_Beet.insert(     0, 'Substrate', 'Sugar_Beet     ')
+    Dry_Grass.insert(      0, 'Substrate', 'Dry_Grass      ')
+    Maize.insert(          0, 'Substrate', 'Maize          ')
+    Potato_Waste.insert(   0, 'Substrate', 'Potato_Waste   ')
+    Yard_Waste.insert(     0, 'Substrate', 'Yard_Waste     ')
+    Bamboo.insert(         0, 'Substrate', 'Bamboo         ')
+    Food_Waste.insert(     0, 'Substrate', 'Food_Waste     ')
+    Fruit_Veggie.insert(   0, 'Substrate', 'Fruit_Veggie   ')
+    OFMSW.insert(          0, 'Substrate', 'OFMSW          ')
+    Fish_Waste.insert(     0, 'Substrate', 'Fish_Waste     ')
+    Slaughter_Res.insert(  0, 'Substrate', 'Slaughter_Res  ')
+    Blood.insert(          0, 'Substrate', 'Blood          ')
+    Vinegar_Res.insert(    0, 'Substrate', 'Vinegar_Res    ')
+    Precooked_Waste.insert(0, 'Substrate', 'Precooked_Waste')
+    Exhaust_Oil.insert(    0, 'Substrate', 'Exhaust_Oil    ')
+    Sewage.insert(         0, 'Substrate', 'Sewage         ')
+    Food_Ind.insert(       0, 'Substrate', 'Food_Ind       ')
+
+    # Substrate category insertion
+    Dairy_Manure.insert(   0, 'Category', 'Manure')
+    Goat_Manure.insert(    0, 'Category', 'Manure')
+    Chicken_Manure.insert( 0, 'Category', 'Manure')
+    Sheep_Manure.insert(   0, 'Category', 'Manure')
+    Pig_Manure.insert(     0, 'Category', 'Manure')
+    Sow_Manure.insert(     0, 'Category', 'Manure')
+    Chicken_Litter.insert( 0, 'Category', 'Manure')
+    Straw.insert(          0, 'Category', 'Agricultural waste')
+    Rice_Husk.insert(      0, 'Category', 'Agricultural waste')
+    Sugar_Beet.insert(     0, 'Category', 'Agricultural waste')
+    Dry_Grass.insert(      0, 'Category', 'Agricultural waste')
+    Maize.insert(          0, 'Category', 'Agricultural waste')
+    Potato_Waste.insert(   0, 'Category', 'Agricultural waste')
+    Yard_Waste.insert(     0, 'Category', 'Agricultural waste')
+    Bamboo.insert(         0, 'Category', 'Agricultural waste')
+    Food_Waste.insert(     0, 'Category', 'Organic waste')
+    Fruit_Veggie.insert(   0, 'Category', 'Organic waste')
+    OFMSW.insert(          0, 'Category', 'Organic waste')
+    Fish_Waste.insert(     0, 'Category', 'Organic waste')
+    Slaughter_Res.insert(  0, 'Category', 'Organic waste')
+    Blood.insert(          0, 'Category', 'Organic waste')
+    Vinegar_Res.insert(    0, 'Category', 'Organic waste')
+    Precooked_Waste.insert(0, 'Category', 'Organic waste')
+    Exhaust_Oil.insert(    0, 'Category', 'Organic waste')
+    Sewage.insert(         0, 'Category', 'Sludges')
+    Food_Ind.insert(       0, 'Category', 'Sludges')
     print(f'database generation... [{Fore.GREEN}OK{Style.RESET_ALL}]')
 
 except: print(f'database generation... [{Fore.RED}DENIED{Style.RESET_ALL}]')
@@ -171,12 +208,11 @@ try:
     PAD = pd.concat(
         [ Dairy_Manure, Goat_Manure, Chicken_Manure, Sheep_Manure, Pig_Manure, Sow_Manure, Chicken_Litter, \
           Straw, Rice_Husk, Sugar_Beet, Dry_Grass, Maize, Potato_Waste, Yard_Waste, Bamboo, Food_Waste, \
-          Fruit_Veggie, OFMSW, Fish_Waste, Slaughter_Res, Vinegar_Res, Precooked_Waste, Exhaust_Oil, Sewage, Food_Ind,
+          Fruit_Veggie, OFMSW, Fish_Waste, Slaughter_Res, Blood, Vinegar_Res, Precooked_Waste, Exhaust_Oil, Sewage, Food_Ind,
         ],
         ignore_index=True
         )
     print(f'concatenation information... [{Fore.GREEN}OK{Style.RESET_ALL}]')
-
 except: print(f'concatenation information... [{Fore.RED}DENIED{Style.RESET_ALL}]')
 try:
     c.execute('DROP TABLE PAD;')
@@ -214,12 +250,20 @@ try:
 
 except: print(f'retrieving data... [{Fore.RED}DENIED{Style.RESET_ALL}]')
 
-cols = list(PAD)
 try:
-    Manure_SAD    = {str(cols[i]): np.nanmean(Manure_PAD[cols[i]].tolist())    for i in range (2, len(cols))}
-    AgriWaste_SAD = {str(cols[i]): np.nanmean(AgriWaste_PAD[cols[i]].tolist()) for i in range (2, len(cols))}
-    OrgWaste_SAD  = {str(cols[i]): np.nanmean(OrgWaste_PAD[cols[i]].tolist())  for i in range (2, len(cols))}
-    Sludges_SAD   = {str(cols[i]): np.nanmean(Sludges_PAD[cols[i]].tolist())   for i in range (2, len(cols))}
+    Manure_PAD    = Manure_PAD.drop(   [cols_all[0], cols_all[1]], axis=1).T.to_numpy()
+    AgriWaste_PAD = AgriWaste_PAD.drop([cols_all[0], cols_all[1]], axis=1).T.to_numpy()
+    OrgWaste_PAD  = OrgWaste_PAD.drop( [cols_all[0], cols_all[1]], axis=1).T.to_numpy()
+    Sludges_PAD   = Sludges_PAD.drop(  [cols_all[0], cols_all[1]], axis=1).T.to_numpy()
+    print(f'data extraction... [{Fore.GREEN}OK{Style.RESET_ALL}]')
+
+except: print(f'data extraction... [{Fore.RED}DENIED{Style.RESET_ALL}]')
+
+try:
+    Manure_SAD    = {str(cols[i]): np.nanmean(Manure_PAD[i],    dtype='float32') for i in range (0, len(cols))}
+    AgriWaste_SAD = {str(cols[i]): np.nanmean(AgriWaste_PAD[i], dtype='float32') for i in range (0, len(cols))}
+    OrgWaste_SAD  = {str(cols[i]): np.nanmean(OrgWaste_PAD[i],  dtype='float32') for i in range (0, len(cols))}
+    Sludges_SAD   = {str(cols[i]): np.nanmean(Sludges_PAD[i],   dtype='float32') for i in range (0, len(cols))}
     print(f'categorization... [{Fore.GREEN}OK{Style.RESET_ALL}]')
 
 except: print(f'categorization... [{Fore.RED}DENIED{Style.RESET_ALL}]')
@@ -228,6 +272,8 @@ try:
     AgriWaste  = pd.DataFrame(AgriWaste_SAD, index=[0])
     OrgWaste   = pd.DataFrame(OrgWaste_SAD,  index=[0])
     Sludges    = pd.DataFrame(Sludges_SAD,   index=[0])
+
+    # Substrate category insertion
     Manure.insert(   0, 'Category', 'Manure')
     AgriWaste.insert(0, 'Category', 'Agricultural waste')
     OrgWaste.insert( 0, 'Category', 'Organic waste')
@@ -241,7 +287,6 @@ try:
 
 except: print(f'concatenation information... [{Fore.RED}DENIED{Style.RESET_ALL}]')
 try:
-    c.execute('DROP TABLE SAD;')
     c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='SAD' ''')
     if c.fetchone()[0]==1:
         print(f'SAD table exists, upload {Fore.RED}passed{Style.RESET_ALL}')
